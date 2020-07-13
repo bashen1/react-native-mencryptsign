@@ -1,14 +1,3 @@
-
-# react-native-mencryptsign
-
-[![npm version](https://badge.fury.io/js/react-native-mencryptsign.svg)](https://badge.fury.io/js/react-native-mencryptsign)
-
-## 开始
-
-`$ npm install react-native-mencryptsign --save`
-
-
-
 # react-native-mencryptsign
 
 [![npm version](https://badge.fury.io/js/react-native-mencryptsign.svg)](https://badge.fury.io/js/react-native-mencryptsign)

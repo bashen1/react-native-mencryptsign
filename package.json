@@ -1,0 +1,25 @@
+{
+  "name": "react-native-mencryptsign",
+  "version": "1.0.0",
+  "description": "react-native library for Encrypt Sign",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "react-native",
+    "react",
+    "react-component",
+    "ios",
+    "android"
+  ],
+  "author": "bashen1 <maochunjie@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bashen1/react-native-mencryptsign/issues"
+  },
+  "homepage": "https://github.com/bashen1/react-native-mencryptsign#readme",
+  "peerDependencies": {
+    "react-native": ">=0.40"
+  }
+}

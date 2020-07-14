@@ -50,10 +50,11 @@ RCT_EXPORT_METHOD(makeSign:(NSDictionary *)param resolve: (RCTPromiseResolveBloc
     [verifyString appendString:secret];
     [verifyString appendString:contentString];
     [verifyString appendString:secret];
-    
+    NSString *verifyRes = [verifyString uppercaseString];
     //MD5 编码
-    NSString *md5Res = [self md5HexDigest:verifyString];
-    resolve(md5Res);
+    NSString *md5Res = [self md5HexDigest:verifyRes];
+    NSDictionary *ret = @{@"code": @"1", @"sign": md5Res, @"paramStr": verifyRes, @"secret": secret};
+    resolve(ret);
 }
 
 

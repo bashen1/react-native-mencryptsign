@@ -24,6 +24,7 @@ public class RNReactNativeMencryptSignModule extends ReactContextBaseJavaModule 
     public void makeSign(final ReadableMap data, final Promise p) {
         String secret = data.getString("secret");
         Map<String, Object> params = data.getMap("params").toHashMap();
+        WritableMap map = Arguments.createMap();
         try {
             //参数名称的ASCII码表的顺序排序
             Map<String, Object> sortedMap = new TreeMap<String, Object>(params);
@@ -38,11 +39,18 @@ public class RNReactNativeMencryptSignModule extends ReactContextBaseJavaModule 
             }
             //首尾加上secret
             prestr = secret + prestr + secret;
+            prestr = prestr.toUpperCase();
             //MD5 编码
             String md5Res = MD5Util.getMD5String(prestr);
-            p.resolve(md5Res);
+
+            map.putString("secret", secret);
+            map.putString("paramStr", prestr);
+            map.putString("sign", md5Res);
+            map.putString("code", "1");
+            p.resolve(map);
         } catch (Exception e) {
-            p.resolve("");
+            map.putString("code", "0");
+            p.resolve(map);
         }
     }
 }

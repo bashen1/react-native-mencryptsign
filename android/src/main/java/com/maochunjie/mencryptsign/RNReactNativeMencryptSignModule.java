@@ -7,6 +7,10 @@ import java.util.TreeMap;
 
 public class RNReactNativeMencryptSignModule extends ReactContextBaseJavaModule {
 
+    static {
+        System.loadLibrary("mmbKey");
+    }
+
     private final ReactApplicationContext reactContext;
 
 
@@ -22,7 +26,7 @@ public class RNReactNativeMencryptSignModule extends ReactContextBaseJavaModule 
 
     @ReactMethod
     public void makeSign(final ReadableMap data, final Promise p) {
-        String secret = data.getString("secret");
+        String secret = getSignature();
         Map<String, Object> params = data.getMap("params").toHashMap();
         WritableMap map = Arguments.createMap();
         try {
@@ -53,4 +57,6 @@ public class RNReactNativeMencryptSignModule extends ReactContextBaseJavaModule 
             p.resolve(map);
         }
     }
+
+    public native String getSignature();
 }

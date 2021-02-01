@@ -1,5 +1,7 @@
 #import "RNReactNativeMencryptSign.h"
 #import <CommonCrypto/CommonCrypto.h>
+#import "mmbKey.h"
+
 
 @implementation RNReactNativeMencryptSign {
     bool hasListeners;
@@ -28,7 +30,7 @@ RCT_EXPORT_MODULE()
 
 RCT_EXPORT_METHOD(makeSign:(NSDictionary *)param resolve: (RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
 {
-    NSString *secret = (NSString *)param[@"secret"];
+    NSString *secret = [mmbKey getSignature];
     NSDictionary *params = param[@"params"];
     NSMutableString *contentString =[NSMutableString string];
     NSArray *keys = [params allKeys];
@@ -70,3 +72,4 @@ RCT_EXPORT_METHOD(makeSign:(NSDictionary *)param resolve: (RCTPromiseResolveBloc
 }
 
 @end
+

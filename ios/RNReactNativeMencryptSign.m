@@ -2,6 +2,7 @@
 #import <CommonCrypto/CommonCrypto.h>
 #import "mmbKey.h"
 
+NSString *secret;
 
 @implementation RNReactNativeMencryptSign {
     bool hasListeners;
@@ -9,6 +10,7 @@
 
 - (dispatch_queue_t)methodQueue
 {
+    secret = [mmbKey getSignature];
     return dispatch_get_main_queue();
 }
 + (BOOL) requiresMainQueueSetup {
@@ -30,7 +32,7 @@ RCT_EXPORT_MODULE()
 
 RCT_EXPORT_METHOD(makeSign:(NSDictionary *)param resolve: (RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
 {
-    NSString *secret = [mmbKey getSignature];
+    //NSString *secret = [mmbKey getSignature];
     NSDictionary *params = param[@"params"];
     NSMutableString *contentString =[NSMutableString string];
     NSArray *keys = [params allKeys];
@@ -55,7 +57,7 @@ RCT_EXPORT_METHOD(makeSign:(NSDictionary *)param resolve: (RCTPromiseResolveBloc
     NSString *verifyRes = [verifyString uppercaseString];
     //MD5 编码
     NSString *md5Res = [self md5HexDigest:verifyRes];
-    NSDictionary *ret = @{@"code": @"1", @"sign": md5Res, @"paramStr": verifyRes, @"secret": secret};
+    NSDictionary *ret = @{@"code": @"1", @"sign": md5Res, @"paramStr": [contentString uppercaseString]};
     resolve(ret);
 }
 
@@ -66,8 +68,9 @@ RCT_EXPORT_METHOD(makeSign:(NSDictionary *)param resolve: (RCTPromiseResolveBloc
     unsigned int ad = (int)strlen(original_str);
     CC_MD5(original_str,ad, result);
     NSMutableString *hash = [NSMutableString string];
-    for (int i = 0; i < 16; i++)
+    for (int i = 0; i < 16; i++) {
         [hash appendFormat:@"%02X", result[i]];
+    }
     return [hash uppercaseString];//将加密后的字符串中的字母改为小写(大写uppercaseString)
 }
 

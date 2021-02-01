@@ -1,6 +1,6 @@
 {
   "name": "react-native-mencryptsign",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "react-native library for Encrypt Sign",
   "main": "index.js",
   "scripts": {

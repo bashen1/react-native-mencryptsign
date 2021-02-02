@@ -12,12 +12,10 @@ public class RNReactNativeMencryptSignModule extends ReactContextBaseJavaModule 
     }
 
     private final ReactApplicationContext reactContext;
-    private final String secret;
 
     public RNReactNativeMencryptSignModule(ReactApplicationContext reactContext) {
         super(reactContext);
         this.reactContext = reactContext;
-        this.secret = getSignature();
     }
 
     @Override
@@ -42,11 +40,7 @@ public class RNReactNativeMencryptSignModule extends ReactContextBaseJavaModule 
                 }
             }
             String paramStr = prestr.toUpperCase();
-            //首尾加上secret
-            prestr = this.secret + prestr + this.secret;
-            prestr = prestr.toUpperCase();
-            //MD5 编码
-            String md5Res = MD5Util.getMD5String(prestr);
+            String md5Res = getToken(paramStr);
 
             map.putString("paramStr", paramStr);
             map.putString("sign", md5Res);
@@ -58,5 +52,5 @@ public class RNReactNativeMencryptSignModule extends ReactContextBaseJavaModule 
         }
     }
 
-    public native String getSignature();
+    public native String getToken(String param);
 }

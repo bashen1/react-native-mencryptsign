@@ -9,6 +9,6 @@
 
 @interface mmbKey : NSObject
 
-+ (NSString *)getSignature;
++ (NSDictionary *) getToken: (NSDictionary *) param;
 
 @end

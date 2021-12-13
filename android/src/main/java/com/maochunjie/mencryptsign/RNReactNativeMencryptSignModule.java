@@ -28,9 +28,7 @@ public class RNReactNativeMencryptSignModule extends ReactContextBaseJavaModule 
         Map<String, Object> params = data.getMap("params").toHashMap();
         WritableMap map = Arguments.createMap();
         try {
-            //参数名称的ASCII码表的顺序排序
             Map<String, Object> sortedMap = new TreeMap<String, Object>(params);
-            //参数名和参数值拼装在一起，过滤掉空的
             String prestr = "";
             for (Map.Entry<String, Object> entry : sortedMap.entrySet()) {
                 String keyStr = entry.getKey();
@@ -40,10 +38,10 @@ public class RNReactNativeMencryptSignModule extends ReactContextBaseJavaModule 
                 }
             }
             String paramStr = prestr.toUpperCase();
-            String md5Res = getToken(paramStr);
+            String tokenRes = getToken(paramStr);
 
             map.putString("paramStr", paramStr);
-            map.putString("sign", md5Res);
+            map.putString("sign", tokenRes);
             map.putString("code", "1");
             p.resolve(map);
         } catch (Exception e) {

@@ -2,6 +2,8 @@ package com.maochunjie.mencryptsign;
 
 import com.facebook.react.bridge.*;
 
+import org.json.JSONObject;
+
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -50,5 +52,28 @@ public class RNReactNativeMencryptSignModule extends ReactContextBaseJavaModule 
         }
     }
 
+    @ReactMethod
+    public void makeDeviceInfo(final ReadableMap data, final Promise p) {
+        WritableMap map = Arguments.createMap();
+        try {
+            String sessionId = "";
+            String deviceInfo = "";
+            String dataString = RNUtils.readableMapToJsonString(data);
+            String result = getDeviceInfo(dataString);
+            JSONObject jsonObject = new JSONObject(result);
+            sessionId = jsonObject.getString("sessionId");
+            deviceInfo = jsonObject.getString("deviceInfo");
+            map.putString("sessionId", sessionId);
+            map.putString("deviceInfo", deviceInfo);
+            map.putString("code", "1");
+            p.resolve(map);
+        } catch (Exception e) {
+            map.putString("code", "0");
+            p.resolve(map);
+        }
+    }
+
     public native String getToken(String param);
+
+    public native String getDeviceInfo(String param);
 }

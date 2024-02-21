@@ -1,5 +1,5 @@
-#import "RNReactNativeMencryptSign.h"
 #import "mmbKey.h"
+#import "RNReactNativeMencryptSign.h"
 
 @implementation RNReactNativeMencryptSign {
     bool hasListeners;
@@ -9,29 +9,45 @@
 {
     return dispatch_get_main_queue();
 }
-+ (BOOL) requiresMainQueueSetup {
+
++ (BOOL)requiresMainQueueSetup {
     return YES;
 }
+
 RCT_EXPORT_MODULE()
 
 // Will be called when this module's first listener is added.
--(void)startObserving {
+- (void)startObserving {
     hasListeners = YES;
     // Set up any upstream listeners or background tasks as necessary
 }
 
 // Will be called when this module's last listener is removed, or on dealloc.
--(void)stopObserving {
+- (void)stopObserving {
     hasListeners = NO;
     // Remove upstream listeners, stop unnecessary background tasks
 }
 
-RCT_EXPORT_METHOD(makeSign:(NSDictionary *)param resolve: (RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
-{
+RCT_EXPORT_METHOD(makeSign:(NSDictionary *)param resolve:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
     NSDictionary *result = [mmbKey getToken:param];
-    NSDictionary *ret = @{@"code": @"1", @"sign": result[@"sign"], @"paramStr": result[@"paramStr"]};
+    NSDictionary *ret = @{
+            @"code": @"1",
+            @"sign": result[@"sign"],
+            @"paramStr": result[@"paramStr"]
+    };
+
+    resolve(ret);
+}
+
+RCT_EXPORT_METHOD(makeDeviceInfo:(NSDictionary *)param resolve:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+    NSDictionary *result = [mmbKey getDeviceInfo:param];
+    NSDictionary *ret = @{
+            @"code": @"1",
+            @"sessionId": result[@"sessionId"],
+            @"deviceInfo": result[@"deviceInfo"]
+    };
+
     resolve(ret);
 }
 
 @end
-

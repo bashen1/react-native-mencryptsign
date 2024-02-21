@@ -9,6 +9,8 @@
 
 @interface mmbKey : NSObject
 
-+ (NSDictionary *) getToken: (NSDictionary *) param;
++ (NSDictionary *)getToken:(NSDictionary *)param;
+
++ (NSDictionary *)getDeviceInfo:(NSDictionary *)param;
 
 @end

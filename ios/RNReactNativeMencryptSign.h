@@ -8,4 +8,3 @@
 @interface RNReactNativeMencryptSign : NSObject <RCTBridgeModule>
 
 @end
-  

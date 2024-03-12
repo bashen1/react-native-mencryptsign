@@ -29,25 +29,50 @@ RCT_EXPORT_MODULE()
 }
 
 RCT_EXPORT_METHOD(makeSign:(NSDictionary *)param resolve:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
-    NSDictionary *result = [mmbKey getToken:param];
-    NSDictionary *ret = @{
-            @"code": @"1",
-            @"sign": result[@"sign"],
-            @"paramStr": result[@"paramStr"]
-    };
+    @try {
+        NSDictionary *result = [mmbKey getToken:param];
+        NSDictionary *ret = @{
+                @"code": @"1",
+                @"sign": result[@"sign"],
+                @"paramStr": result[@"paramStr"],
+                @"errName": @"",
+                @"errMessage": @""
+        };
 
-    resolve(ret);
+        resolve(ret);
+    } @catch (NSException *e) {
+        NSDictionary *ret = @{
+                @"code": @"0",
+                @"sign": @"",
+                @"paramStr": @"",
+                @"errName": e.name,
+                @"errMessage": e.reason
+        };
+        resolve(ret);
+    }
 }
 
 RCT_EXPORT_METHOD(makeDeviceInfo:(NSDictionary *)param resolve:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
-    NSDictionary *result = [mmbKey getDeviceInfo:param];
-    NSDictionary *ret = @{
-            @"code": @"1",
-            @"sessionId": result[@"sessionId"],
-            @"deviceInfo": result[@"deviceInfo"]
-    };
-
-    resolve(ret);
+    @try {
+        NSDictionary *result = [mmbKey getDeviceInfo:param];
+        NSDictionary *ret = @{
+                @"code": @"1",
+                @"sessionId": result[@"sessionId"],
+                @"deviceInfo": result[@"deviceInfo"],
+                @"errName": @"",
+                @"errMessage": @""
+        };
+        resolve(ret);
+    } @catch (NSException *e) {
+        NSDictionary *ret = @{
+                @"code": @"0",
+                @"sessionId": @"",
+                @"deviceInfo": @"",
+                @"errName": e.name,
+                @"errMessage": e.reason
+        };
+        resolve(ret);
+    }
 }
 
 @end

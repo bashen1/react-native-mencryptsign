@@ -44,9 +44,15 @@ public class RNReactNativeMencryptSignModule extends ReactContextBaseJavaModule 
 
             map.putString("paramStr", paramStr);
             map.putString("sign", tokenRes);
+            map.putString("errName", "");
+            map.putString("errMessage", "");
             map.putString("code", "1");
             p.resolve(map);
         } catch (Exception e) {
+            map.putString("paramStr", "");
+            map.putString("sign", "");
+            map.putString("errName", "JavaError");
+            map.putString("errMessage", e.getMessage());
             map.putString("code", "0");
             p.resolve(map);
         }
@@ -58,17 +64,31 @@ public class RNReactNativeMencryptSignModule extends ReactContextBaseJavaModule 
         try {
             String sessionId = "";
             String deviceInfo = "";
+            String errName = "";
+            String errMessage = "";
             String dataString = RNUtils.readableMapToJsonString(data);
             String result = getDeviceInfo(dataString);
             JSONObject jsonObject = new JSONObject(result);
             sessionId = jsonObject.getString("sessionId");
             deviceInfo = jsonObject.getString("deviceInfo");
+            errName = jsonObject.getString("errName");
+            errMessage = jsonObject.getString("errMessage");
+            if (!errName.isEmpty()) {
+                map.putString("code", "0");
+            } else {
+                map.putString("code", "1");
+            }
             map.putString("sessionId", sessionId);
             map.putString("deviceInfo", deviceInfo);
-            map.putString("code", "1");
+            map.putString("errName", errName);
+            map.putString("errMessage", errMessage);
             p.resolve(map);
         } catch (Exception e) {
             map.putString("code", "0");
+            map.putString("sessionId", "");
+            map.putString("deviceInfo", "");
+            map.putString("errName", "JavaError");
+            map.putString("errMessage", e.getMessage());
             p.resolve(map);
         }
     }

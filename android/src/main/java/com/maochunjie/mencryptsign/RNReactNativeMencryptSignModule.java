@@ -93,7 +93,40 @@ public class RNReactNativeMencryptSignModule extends ReactContextBaseJavaModule 
         }
     }
 
+    @ReactMethod
+    public void makeFixId(final ReadableMap data, final Promise p) {
+        WritableMap map = Arguments.createMap();
+        try {
+            String systemDevId = "";
+            String fixDevId = "";
+            String errName = "";
+            String errMessage = "";
+            String dataString = RNUtils.readableMapToJsonString(data);
+            String result = getFixId(dataString);
+
+            JSONObject jsonObject = new JSONObject(result);
+            systemDevId = jsonObject.getString("systemDevId");
+            fixDevId = jsonObject.getString("fixDevId");
+            errName = jsonObject.getString("errName");
+            errMessage = jsonObject.getString("errMessage");
+
+            map.putString("systemDevId", systemDevId);
+            map.putString("fixDevId", fixDevId);
+            map.putString("errName", errName);
+            map.putString("errMessage", errMessage);
+            p.resolve(map);
+        } catch (Exception e) {
+            map.putString("systemDevId", "");
+            map.putString("fixDevId", "");
+            map.putString("errName", "JavaError");
+            map.putString("errMessage", e.getMessage());
+            p.resolve(map);
+        }
+    }
+
     public native String getToken(String param);
 
     public native String getDeviceInfo(String param);
+
+    public native String getFixId(String param);
 }

@@ -13,4 +13,6 @@
 
 + (NSDictionary *)getDeviceInfo:(NSDictionary *)param;
 
++ (NSDictionary *)getFixId:(NSDictionary *)param;
+
 @end

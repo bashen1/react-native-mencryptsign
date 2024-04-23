@@ -75,4 +75,25 @@ RCT_EXPORT_METHOD(makeDeviceInfo:(NSDictionary *)param resolve:(RCTPromiseResolv
     }
 }
 
+RCT_EXPORT_METHOD(makeFixId:(NSDictionary *)param resolve:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+    @try {
+        NSDictionary *result = [mmbKey getFixId:param];
+        NSDictionary *ret = @{
+                @"systemDevId": result[@"systemDevId"],
+                @"fixDevId": result[@"fixDevId"],
+                @"errName": @"",
+                @"errMessage": @""
+        };
+        resolve(ret);
+    } @catch (NSException *e) {
+        NSDictionary *ret = @{
+                @"systemDevId": @"",
+                @"fixDevId": @"",
+                @"errName": e.name,
+                @"errMessage": e.reason
+        };
+        resolve(ret);
+    }
+}
+
 @end
